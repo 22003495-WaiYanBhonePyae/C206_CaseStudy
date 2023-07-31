@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
+ 
 public class C206_CaseStudy {
     public static boolean loggedIn = false;
 
@@ -123,7 +123,7 @@ public class C206_CaseStudy {
     }
 
     public static boolean validPassword(String password) {
-        return password.length() >= 4;
+        return password.length() >= 8;
     }
 
     public static void viewUsers(ArrayList<User> userList) {
