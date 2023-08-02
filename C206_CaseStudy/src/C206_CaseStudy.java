@@ -8,6 +8,8 @@ public class C206_CaseStudy {
 
     public static void main(String[] args) {
         ArrayList<User> userList = new ArrayList<>();
+        
+        //Admin is Jame
         userList.add(new User("Jame", "Jame@123", "jame123@gmail.com", "biker", true));
         userList.add(new User("Mary", "Mary@456", "mary456@gmail.com", "biker1", false));
         userList.add(new User("Paul", "Paul@789", "paul789@gmail.com", "biker2", false));
