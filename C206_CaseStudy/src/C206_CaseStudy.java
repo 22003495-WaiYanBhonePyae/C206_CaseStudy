@@ -3,19 +3,24 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class C206_CaseStudy {
-    public static boolean loggedIn = false;
+    private static final int QUIT = 3;
+	public static boolean loggedIn = false;
     public static User currentUser;
+    private static ArrayList<Discussion> discList = new ArrayList<>();
 
     public static void main(String[] args) {
         ArrayList<User> userList = new ArrayList<>();
+//        ArrayList<Discussion> discList = new ArrayList<>();
         
         //Admin is Jame
         userList.add(new User("Jame", "Jame@123", "jame123@gmail.com", "biker", true));
         userList.add(new User("Mary", "Mary@456", "mary456@gmail.com", "biker1", false));
         userList.add(new User("Paul", "Paul@789", "paul789@gmail.com", "biker2", false));
 
+        discList.add(new Discussion("Rando Discussion", "Stupid ridiculous shit", "paul789@gmail.com"));
+        
         int option = 0;
-        while (option != 3) {
+        while (option != QUIT) {
             displayMenu();
             option = Helper.readInt("Enter an option > ");
             if (option == 1) {
@@ -107,7 +112,8 @@ public class C206_CaseStudy {
             System.out.println("**** USER MENU ****");
             System.out.println("1. View all users");
             System.out.println("2. Search users by name");
-            System.out.println("3. Log out");
+            System.out.println("3. Add a new discussion");
+            System.out.println("4. Log out");
 
             int choose = Helper.readInt("Enter an option > ");
             if (choose == 1) {
@@ -115,6 +121,8 @@ public class C206_CaseStudy {
             } else if (choose == 2) {
                 searchUser(userList);
             } else if (choose == 3) {
+                addDisc(userList); // Option to add a new discussion
+            } else if (choose == QUIT) {
                 System.out.println("Logged out successfully");
                 loggedIn = false;
             } else {
@@ -122,6 +130,7 @@ public class C206_CaseStudy {
             }
         }
     }
+
 
     public static boolean login(ArrayList<User> userList) {
         while (true) {
@@ -253,4 +262,55 @@ public class C206_CaseStudy {
         }
         System.out.println("User with the specified email address not found.");
     }
+    //End of wai yan
+
+    //Start of discussion 
+    
+    public static void addDisc(ArrayList<User> userList) {
+        String discTitle = Helper.readString("Enter Discussion Title > ");
+        String discDesc = Helper.readString("Enter Discussion Description > ");
+        String membersEm;
+
+        while (true) {
+            membersEm = Helper.readString("Add member's email to add to discussion > ");
+            if (!validEmail(membersEm)) {
+                System.out.println("Invalid email address! Please enter a valid email.");
+            } else if (emailExists(userList, membersEm)) {
+                for (User user : userList) {
+                    String output = String.format("%s is added to %s discussion", user.getUsername(), discTitle);
+                    System.out.println(output);
+                    break;
+                }
+                break; // Exit the loop when a valid email is found
+            }
+        }
+
+        discList.add(new Discussion(discTitle, discDesc, membersEm));
+    }
+    
+//    public static void addDiscussion(ArrayList<User> userList) {
+//        String discTitle = Helper.readString("Enter Discussion Title > ");
+//        String discDesc = Helper.readString("Enter Discussion Description > ");
+//        String membersEm;
+//
+//        while (true) {
+//            membersEm = Helper.readString("Add member's email to add to discussion > ");
+//            if (!validEmail(membersEm)) {
+//                System.out.println("Invalid email address! Please enter a valid email.");
+//            } else if (emailExists(userList, membersEm)) {
+//            	for (User user : userList) {
+//                    String output = String.format("%s is added to %s discussion", user.getUsername(), discTitle);
+//                    System.out.println(output);
+//                    
+//                break;
+//                
+//            }
+//            	
+//        }
+//            
+//        }
+//        discList.add(new Discussion(discTitle, discDesc, membersEm));
+//        
+//    }
+
 }
