@@ -1,16 +1,3 @@
-
-/**
- * I declare that this code was written by me.
- * I will not copy or allow others to copy my code.
- * I understand that copying code is considered as plagiarism.
- *
- * Remus, 2 Aug 2023 3:44:19 pm
- */
-
-/**
- * @author Remus Teo
- *
- */
 public class Event {
     private String eventID;
     private String title;
