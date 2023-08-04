@@ -15,7 +15,7 @@ public class C206_CaseStudy {
 		userList.add(new User("Mary", "Mary@456", "mary456@gmail.com", "biker1", false));
 		userList.add(new User("Paul", "Paul@789", "paul789@gmail.com", "biker2", false));
 
-		eventList.add(new Event("1", "BikerFest", "09-11-2002", "Bedok", "Come join Bikerfest!"));
+		eventList.add(new Event("1", "BikerFest", "09/11/2002", "Bedok", "Come join Bikerfest!"));
 
 		int option = 0;
 		while (option != 3) {
