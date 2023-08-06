@@ -7,6 +7,7 @@ public class C206_CaseStudy {
 	public static boolean loggedIn = false;
 	public static User currentUser;
 
+	
 	public static void main(String[] args) {
 		ArrayList<User> userList = new ArrayList<>();
 		ArrayList<Event> eventList = new ArrayList<>();
