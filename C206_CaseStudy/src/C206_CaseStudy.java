@@ -12,11 +12,12 @@ public class C206_CaseStudy {
 		ArrayList<User> userList = new ArrayList<>();
 		ArrayList<Event> eventList = new ArrayList<>();
 		ArrayList<Discussion> discList = new ArrayList<>();
+		ArrayList<Group>groupList = new ArrayList<>();
 		// Admin is Jame
 		userList.add(new User("Jame", "Jame@123", "jame123@gmail.com", "biker", true));
 		userList.add(new User("Mary", "Mary@456", "mary456@gmail.com", "biker1", false));
 		userList.add(new User("Paul", "Paul@789", "paul789@gmail.com", "biker2", false));
-
+		groupList.add(new Group("T05","Tigers","Bike Lovers"));
 		eventList.add(new Event("1", "BikerFest", "09/11/2002", "Bedok", "Come join Bikerfest!"));
 		
 		discList.add(new Discussion("1", "Engine Overhaul", "Here in this discussion we will talk about how to do an engine overhaul"));
@@ -31,7 +32,7 @@ public class C206_CaseStudy {
 				if (login(userList)) {
 					System.out.println("**** Account login successful ****");
 					if (currentUser.isAdmin()) {
-						adminMenu(userList, eventList,discList);
+						adminMenu(userList, eventList,discList,groupList);
 					} else {
 						userMenu(userList);
 					}
@@ -47,7 +48,7 @@ public class C206_CaseStudy {
 		}
 	}
 
-	public static void adminMenu(ArrayList<User> userList, ArrayList<Event> eventList, ArrayList<Discussion> discList) {
+	public static void adminMenu(ArrayList<User> userList, ArrayList<Event> eventList, ArrayList<Discussion> discList, ArrayList<Group>groupList) {
 		while (loggedIn) {
 			System.out.println();
 			System.out.println("**** ADMIN MENU ****");
@@ -82,10 +83,13 @@ public class C206_CaseStudy {
 			} else if (choose == 6) {
 				// Implement method to delete an existing bike
 			} else if (choose == 7) {
+				addGroup(groupList);
 				// Implement method to add a new group
 			} else if (choose == 8) {
+				viewGroups(groupList);
 				// Implement method to view all groups
 			} else if (choose == 9) {
+				deleteGroup(groupList);
 				// Implement method to delete an existing group
 			} else if (choose == 10) {
 				addDiscussion(discList);
@@ -267,6 +271,75 @@ public class C206_CaseStudy {
 		}
 		System.out.println("User with the specified email address not found.");
 	}
+	 public static void addGroup(ArrayList<Group> groupList) {
+	    	
+	    	String groupID = Helper.readString("Enter the group ID >");
+	        String groupName = Helper.readString("Enter the group name > ");
+	        String groupDescription = Helper.readString("Enter the group description > ");
+
+	        Group newGroup = new Group(groupID,groupName, groupDescription);
+
+	        
+	        groupList.add(newGroup);
+
+	        System.out.println("New group has successfully have been added in the Bikers Community Portal!");
+	        
+	    }
+	 public static void viewGroups(ArrayList<Group> groupList) {
+		    int totalGroups = groupList.size();
+		    
+		    Helper.line(60, "=");
+		    System.out.println(String.format("%-20s %-20s %-20s", "GROUP ID" ,"GROUP NAME", "DESCRIPTION"));
+		    Helper.line(60, "=");
+
+		    for (Group group : groupList) {
+		        System.out.println(String.format("%-20s %-20s %-20s", group.getId() ,group.getGroupName(), group.getGroupDescription()));
+		    }
+
+		    Helper.line(60, "-");
+		    System.out.println("Group count:"+ totalGroups);
+		    Helper.line(60, "=");
+		}
+
+		/*
+		 * public static void searchGroup(ArrayList<Group> groupList) { boolean
+		 * foundGroup = false; String keywordGroup =
+		 * Helper.readString("Enter a keyword to search for Group by its name or ID > "
+		 * ); String output = String.format("%-20s %-27s %-50s %-10s\n", "GROUP ID",
+		 * "GROUP NAME", "DESCRIPTION");
+		 * 
+		 * for (Group group : groupList) { if
+		 * (group.getId().equalsIgnoreCase(keywordGroup) ||
+		 * group.getGroupName().toLowerCase().contains(keywordGroup.toLowerCase())) {
+		 * 
+		 * output += String.format("%-20s %-27s %-50s %-10d\n", group.getId(),
+		 * group.getGroupName(), group.getGroupDescription()); foundGroup = true; } }
+		 * 
+		 * System.out.println(output);
+		 * 
+		 * if (!foundGroup) { System.out.
+		 * println("There is no group with the keyword of group name or group ID"); } }
+		 */
+
+	    
+	    public static void deleteGroup(ArrayList<Group> groupList) {
+	        String groupNameToDelete = Helper.readString("Enter the ID of the group to delete > ");
+	        boolean groupFound = false;
+
+	        for (Group group : groupList) {
+	            if (group.getId().equalsIgnoreCase(groupNameToDelete)) {
+	                groupFound = true;
+	                groupList.remove(group);
+	                System.out.println("Group has been deleted successfully.");
+	                break;
+	            }
+	        }
+
+	        if (!groupFound) {
+	            System.out.println("Group with the specified name is not found.");
+	        }
+	    }
+	        
 
 //Add event
 	public static boolean addEvent(ArrayList<Event> eventList) {
@@ -401,7 +474,27 @@ public class C206_CaseStudy {
 
 		
 		//View all Discussion
-		
+		public static void viewDiscussion(ArrayList<Discussion> discList) {
+		      System.out.println();
+		      Helper.line(100, "-");
+		      System.out.printf("%-10s %-25s %-12s\n", "DISCUSSION ID", "TITLE", "DESCRIPTION");
+		      Helper.line(100, "-");
+
+		      for (Discussion disc : discList) {
+		        String discID = disc.getDiscID();
+		        String title = disc.getTitle();
+		        String description = disc.getDescription();
+
+		            int maxLength = 10;
+		            String wrappedMessage = wrapMessage(description, maxLength);
+
+		        String formattedEntry = String.format("%-10s %-25s %-12s", discID, title, wrappedMessage);
+		        System.out.println(formattedEntry);
+		      }
+
+		      Helper.line(100, "-");
+		    }
+
 
 	//Delete Discussion
 		public static boolean deleteDiscussion(ArrayList<Discussion> discList) {

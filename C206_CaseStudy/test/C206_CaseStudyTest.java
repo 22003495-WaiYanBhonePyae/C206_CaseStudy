@@ -8,20 +8,30 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import junit.framework.Assert;
+
 public class C206_CaseStudyTest {
 	private User user1;
 	private User user2;
 	private User user3;
-
+	
 	private ArrayList<User> userList;
-
+	
+	private Group gp1;
+	private Group gp2;
+	
+	private ArrayList<User> groupList;
 	@Before
 	public void setUp() throws Exception {
 		user1 = new User("John", "123456", "john123@gmail.com", "Biker enthusiast", false);
 		user2 = new User("Mary", "abcdef", "mary456@gmail.com", "Biker specialist", false);
 		user3 = new User("Admin", "admin123", "admin@gmail.com", "Biker community admin", true);
-
+        
 		userList = new ArrayList<User>();
+		
+		groupList = new ArrayList<User>();
+		gp1 = new Group("2202","Tigers","Biking");
+		gp2 = new Group("2203","Lions","nerds");
 	}
 
 	@Test
@@ -80,4 +90,41 @@ public class C206_CaseStudyTest {
 
 		userList = null;
 	}
+	
+	@Test
+    public void testAddGroup() {
+        ArrayList<Group> groupList = new ArrayList<>();
+        C206_CaseStudy.addGroup(groupList);
+        
+        assertEquals(1, groupList.size());
+        // Add more assertions as needed based on the expected behavior of the method
+    }
+    
+   
+
+	 @Test
+	    public void testViewGroups() {
+	        ArrayList<Group> groupList = new ArrayList<>();
+	        Group newGroup = new Group("Group 1", "Description 1", "ID1");
+	        groupList.add(newGroup);
+	        
+	        C206_CaseStudy.viewGroups(groupList);
+	        
+	        // Assert the output of the method based on the expected behavior
+	    }    
+	    @Test
+	    public void testDeleteGroup() {
+	        ArrayList<Group> groupList = new ArrayList<>();
+	        Group newGroup = new Group("GroupToDelete", "Description", "ID1");
+	        groupList.add(newGroup);
+	        
+	        C206_CaseStudy.deleteGroup(groupList);
+	        
+	        assertEquals(0, groupList.size());
+	        // Add more assertions as needed based on the expected behavior of the method
+	    }
+
 }
+
+
+
