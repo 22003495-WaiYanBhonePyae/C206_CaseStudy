@@ -11,12 +11,15 @@ public class C206_CaseStudy {
 	public static void main(String[] args) {
 		ArrayList<User> userList = new ArrayList<>();
 		ArrayList<Event> eventList = new ArrayList<>();
+		ArrayList<Discussion> discList = new ArrayList<>();
 		// Admin is Jame
 		userList.add(new User("Jame", "Jame@123", "jame123@gmail.com", "biker", true));
 		userList.add(new User("Mary", "Mary@456", "mary456@gmail.com", "biker1", false));
 		userList.add(new User("Paul", "Paul@789", "paul789@gmail.com", "biker2", false));
 
 		eventList.add(new Event("1", "BikerFest", "09/11/2002", "Bedok", "Come join Bikerfest!"));
+		
+		discList.add(new Discussion("1", "Engine Overhaul", "Here in this discussion we will talk about how to do an engine overhaul"));
 
 		int option = 0;
 		while (option != 3) {
@@ -28,7 +31,7 @@ public class C206_CaseStudy {
 				if (login(userList)) {
 					System.out.println("**** Account login successful ****");
 					if (currentUser.isAdmin()) {
-						adminMenu(userList, eventList);
+						adminMenu(userList, eventList,discList);
 					} else {
 						userMenu(userList);
 					}
@@ -44,7 +47,7 @@ public class C206_CaseStudy {
 		}
 	}
 
-	public static void adminMenu(ArrayList<User> userList, ArrayList<Event> eventList) {
+	public static void adminMenu(ArrayList<User> userList, ArrayList<Event> eventList, ArrayList<Discussion> discList) {
 		while (loggedIn) {
 			System.out.println();
 			System.out.println("**** ADMIN MENU ****");
@@ -85,10 +88,13 @@ public class C206_CaseStudy {
 			} else if (choose == 9) {
 				// Implement method to delete an existing group
 			} else if (choose == 10) {
+				addDiscussion(discList);
 				// Implement method to add a new discussion
 			} else if (choose == 11) {
+				viewDiscussion(discList);
 				// Implement method to view all discussions
 			} else if (choose == 12) {
+				deleteDiscussion(discList);
 				// Implement method to delete an existing discussion
 			} else if (choose == 13) {
 				addEvent(eventList);
@@ -211,7 +217,8 @@ public class C206_CaseStudy {
 	public static boolean validPassword(String password) {
 		return password.length() >= 8;
 	}
-
+	
+	//View all Users
 	public static void viewUsers(ArrayList<User> userList) {
 		System.out.println();
 		String output = String.format("%-15s %-25s %-50s %-10s\n", "USERNAME", "EMAIL", "DESCRIPTION", "IS ADMIN");
@@ -362,4 +369,86 @@ public class C206_CaseStudy {
 		System.out.println("Event with the specified ID not found.");
 		return false; // Event was not found
 	}
+	
+	//Add Discussion
+		public static boolean addDiscussion(ArrayList<Discussion> discList) {
+			String discID = Helper.readString("Enter Discussion ID > ");
+
+			if (discExists(discList, discID)) {
+				System.out.println("Discussion with the same ID already exists. Please enter a unique event ID.");
+				return false;
+			}
+
+			String discTitle = Helper.readString("Enter Discussion title > ");
+
+			
+			String discDescription = Helper.readString("Enter event description > ");
+
+			discList.add(new Discussion(discID, discTitle, discDescription));
+			System.out.println("Discussion added successfully.");
+			return true;
+		}
+
+		// Helper method to check if an event with the given ID already exists
+		public static boolean discExists(ArrayList<Discussion> discList, String discID) {
+			for (Discussion disc : discList) {
+				if (disc.getDiscID().equalsIgnoreCase(discID)) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		
+		//View all Discussion
+		
+
+	//Delete Discussion
+		public static boolean deleteDiscussion(ArrayList<Discussion> discList) {
+			String delDiscID = Helper.readString("Enter the Discussion ID to delete > ");
+
+			for (int i = 0; i < discList.size(); i++) {
+				if (discList.get(i).getDiscID().equalsIgnoreCase(delDiscID)) {
+					Discussion discToDelete = discList.get(i);
+
+					System.out.println("Discussion found:");
+					Helper.line(100, "-");
+					System.out.println("Discussion ID: " + discToDelete.getDiscID());
+					System.out.println("Title: " + discToDelete.getTitle());
+					System.out.println("Description: " + discToDelete.getDescription());
+					Helper.line(100, "-");
+					String confirmDeleteInput = Helper.readString("Are you sure you want to delete this discussion? (yes/no) > ");
+					if (confirmDeleteInput.equalsIgnoreCase("yes")) {
+						discList.remove(i);
+						System.out.println("Discussion deleted successfully.");
+						return true; // Discussion was successfully deleted
+					} else {
+						System.out.println("Discussion deletion cancelled.");
+						return false; // Deletion was cancelled
+					}
+				}
+			}
+
+			System.out.println("Discussion with the specified ID not found.");
+			return false; // Discussion was not found
+		}
+		//Wrap Messages
+		 public static String wrapMessage(String message, int maxLength) {
+		        StringBuilder wrappedMessage = new StringBuilder();
+		        StringBuilder currentLine = new StringBuilder();
+
+		        String[] words = message.split(" ");
+		        for (String word : words) {
+		            if (currentLine.length() + word.length() + 1 <= maxLength) {
+		                currentLine.append(word).append(" ");
+		            } else {
+		                wrappedMessage.append(currentLine.toString().trim()).append("\n");
+		                currentLine = new StringBuilder(word).append(" ");
+		            }
+		        }
+
+		        wrappedMessage.append(currentLine.toString().trim());
+		        return wrappedMessage.toString();
+		    }
+		
 }
