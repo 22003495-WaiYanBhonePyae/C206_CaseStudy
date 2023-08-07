@@ -1,17 +1,22 @@
 
 public class Discussion{
 
+	private String discID;
     private String title;
     private String description;
-    private String membersEm;
+//    private String membersEm;
 
-    public Discussion(String discTitle, String discDesc, String membersEm) {
-		// TODO Auto-generated constructor stub
+    public Discussion(String discID, String discTitle, String discDesc/*, String membersEm*/) {
+
+    	this.discID = discID;
         this.title = discTitle;
         this.description = discDesc;
-
-        this.membersEm = membersEm;
+ //       this.membersEm = membersEm;
+        
 	}
+    public String getDiscID() {
+        return discID;
+    }
 
 	public String getTitle() {
         return title;
@@ -28,10 +33,13 @@ public class Discussion{
     public void setDescription(String description) {
         this.description = description;
     }
+
     public void display() {
         System.out.println("Title: " + title);
         System.out.println("Description: " + description);
     }
     
+
+
 }
 

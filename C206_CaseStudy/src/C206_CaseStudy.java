@@ -7,16 +7,25 @@ public class C206_CaseStudy {
 	public static boolean loggedIn = false;
 	public static User currentUser;
 
-	
 	public static void main(String[] args) {
 		ArrayList<User> userList = new ArrayList<>();
 		ArrayList<Event> eventList = new ArrayList<>();
+		ArrayList<Discussion> discList = new ArrayList<>();
+		ArrayList<Group> groupList = new ArrayList<>();
+		ArrayList<Bike> bikeList = new ArrayList<>();
 		// Admin is Jame
 		userList.add(new User("Jame", "Jame@123", "jame123@gmail.com", "biker", true));
 		userList.add(new User("Mary", "Mary@456", "mary456@gmail.com", "biker1", false));
 		userList.add(new User("Paul", "Paul@789", "paul789@gmail.com", "biker2", false));
-
+		groupList.add(new Group("T05", "Tigers", "Bike Lovers"));
 		eventList.add(new Event("1", "BikerFest", "09/11/2002", "Bedok", "Come join Bikerfest!"));
+
+		discList.add(new Discussion("1", "Engine Overhaul",
+				"Here in this discussion we will talk about how to do an engine overhaul"));
+
+		bikeList.add(new Bike("Trek", "FX 2", "Hybrid bike "));
+		bikeList.add(new Bike("Giant", "Advanced Pro 1", "Road bike"));
+		bikeList.add(new Bike("Specialized", "Rockhopper", "Mountain bike"));
 
 		int option = 0;
 		while (option != 3) {
@@ -28,7 +37,7 @@ public class C206_CaseStudy {
 				if (login(userList)) {
 					System.out.println("**** Account login successful ****");
 					if (currentUser.isAdmin()) {
-						adminMenu(userList, eventList);
+						adminMenu(userList, eventList, discList, groupList, bikeList);
 					} else {
 						userMenu(userList);
 					}
@@ -44,7 +53,8 @@ public class C206_CaseStudy {
 		}
 	}
 
-	public static void adminMenu(ArrayList<User> userList, ArrayList<Event> eventList) {
+	public static void adminMenu(ArrayList<User> userList, ArrayList<Event> eventList, ArrayList<Discussion> discList,
+			ArrayList<Group> groupList, ArrayList<Bike> bikeList) {
 		while (loggedIn) {
 			System.out.println();
 			System.out.println("**** ADMIN MENU ****");
@@ -74,21 +84,30 @@ public class C206_CaseStudy {
 				deleteUser(userList);
 			} else if (choose == 4) {
 				// Implement method to add a new bike
+				addBike(bikeList);
 			} else if (choose == 5) {
 				// Implement method to view all bikes
+				viewBikes(bikeList);
 			} else if (choose == 6) {
 				// Implement method to delete an existing bike
+				deleteBike(bikeList);
 			} else if (choose == 7) {
+				addGroup(groupList);
 				// Implement method to add a new group
 			} else if (choose == 8) {
+				viewGroups(groupList);
 				// Implement method to view all groups
 			} else if (choose == 9) {
+				deleteGroup(groupList);
 				// Implement method to delete an existing group
 			} else if (choose == 10) {
+				addDiscussion(discList);
 				// Implement method to add a new discussion
 			} else if (choose == 11) {
+				viewDiscussion(discList);
 				// Implement method to view all discussions
 			} else if (choose == 12) {
+				deleteDiscussion(discList);
 				// Implement method to delete an existing discussion
 			} else if (choose == 13) {
 				addEvent(eventList);
@@ -131,36 +150,35 @@ public class C206_CaseStudy {
 	}
 
 	public static boolean login(ArrayList<User> userList) {
-	    while (true) {
-	        String email = Helper.readString("Enter Email address > ");
-	        boolean emailExists = false;
-	        
-	        for (User user : userList) {
-	            if (user.getEmail().equalsIgnoreCase(email)) {
-	                emailExists = true;
-	                break;
-	            }
-	        }
-	        
-	        if (!emailExists) {
-	            System.out.println("Email does not exist. Please check your email.");
-	            return false;
-	        }
-	        
-	        String pass = Helper.readString("Enter password > ");
-	        for (User user : userList) {
-	            if (user.getEmail().equalsIgnoreCase(email) && user.getPassword().equals(pass)) {
-	                loggedIn = true;
-	                currentUser = user;
-	                return true;
-	            }
-	        }
-	        
-	        System.out.println("Please check your password.");
-	        return false;
-	    }
-	}
+		while (true) {
+			String email = Helper.readString("Enter Email address > ");
+			boolean emailExists = false;
 
+			for (User user : userList) {
+				if (user.getEmail().equalsIgnoreCase(email)) {
+					emailExists = true;
+					break;
+				}
+			}
+
+			if (!emailExists) {
+				System.out.println("Email does not exist. Please check your email.");
+				return false;
+			}
+
+			String pass = Helper.readString("Enter password > ");
+			for (User user : userList) {
+				if (user.getEmail().equalsIgnoreCase(email) && user.getPassword().equals(pass)) {
+					loggedIn = true;
+					currentUser = user;
+					return true;
+				}
+			}
+
+			System.out.println("Please check your password.");
+			return false;
+		}
+	}
 
 	public static void displayMenu() {
 		LocalDate cur = LocalDate.now();
@@ -176,47 +194,60 @@ public class C206_CaseStudy {
 	}
 
 	public static void addUser(ArrayList<User> userList) {
-	    String uName = Helper.readString("Enter username > ");
-	    String email;
-	    String password;
-	    String description;
+		String uName = Helper.readString("Enter username > ");
+		String email;
+		String password;
+		String description;
 
-	    while (true) {
-	        email = Helper.readString("Enter email address > ");
-	        if (!email.contains("@") || !email.contains(".")) {
-	            System.out.println("Invalid email address! Please enter a valid email.");
-	        } else {
-	            boolean emailExists = false;
-	            for (User user : userList) {
-	                if (user.getEmail().equalsIgnoreCase(email)) {
-	                    emailExists = true;
-	                    break;
-	                }
-	            }
-	            if (emailExists) {
-	                System.out.println("Email already exists. Please enter a different email.");
-	            } else {
-	                break;
-	            }
-	        }
-	    }
+		while (true) {
+			email = Helper.readString("Enter email address > ");
+			if (!email.contains("@") || !email.contains(".")) {
+				System.out.println("Invalid email address! Please enter a valid email.");
+			} else {
+				boolean emailExists = false;
+				for (User user : userList) {
+					if (user.getEmail().equalsIgnoreCase(email)) {
+						emailExists = true;
+						break;
+					}
+				}
+				if (emailExists) {
+					System.out.println("Email already exists. Please enter a different email.");
+				} else {
+					break;
+				}
+			}
+		}
 
-	    while (true) {
-	        password = Helper.readString("Enter strong password > ");
-	        if (password.length() < 8) {
-	            System.out.println("Invalid password! Password must have at least 8 characters.");
-	        } else {
-	            break;
-	        }
-	    }
+		while (true) {
+			password = Helper.readString("Enter strong password > ");
+			if (password.length() < 8) {
+				System.out.println("Invalid password! Password must have at least 8 characters.");
+			} else {
+				break;
+			}
+		}
 
-	    description = Helper.readString("Enter your biography > ");
-	    userList.add(new User(uName, password, email, description, false)); // Set isAdmin to false by default
-	    loggedIn = true;
-	    System.out.println("Account created successfully.");
+		description = Helper.readString("Enter your biography > ");
+		userList.add(new User(uName, password, email, description, false)); // Set isAdmin to false by default
+		loggedIn = true;
+		System.out.println("Account created successfully.");
 	}
 
+	public static boolean emailExists(ArrayList<User> userList, String email) {
+		for (User user : userList) {
+			if (user.getEmail().equalsIgnoreCase(email)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
+	public static boolean validPassword(String password) {
+		return password.length() >= 8;
+	}
+
+	// View all Users
 
 	public static void viewUsers(ArrayList<User> userList) {
 		System.out.println();
@@ -267,36 +298,131 @@ public class C206_CaseStudy {
 		System.out.println("User with the specified email address not found.");
 	}
 
-//Add event
-	public static boolean addEvent(ArrayList<Event> eventList) {
-		String eventID = Helper.readString("Enter event ID > ");
+	public static void addGroup(ArrayList<Group> groupList) {
 
-		if (eventExists(eventList, eventID)) {
-			System.out.println("Event with the same ID already exists. Please enter a unique event ID.");
-			return false;
+		String groupID = Helper.readString("Enter the group ID >");
+		String groupName = Helper.readString("Enter the group name > ");
+		String groupDescription = Helper.readString("Enter the group description > ");
+
+		Group newGroup = new Group(groupID, groupName, groupDescription);
+
+		groupList.add(newGroup);
+
+		System.out.println("New group has successfully have been added in the Bikers Community Portal!");
+
+	}
+
+	public static void viewGroups(ArrayList<Group> groupList) {
+		int totalGroups = groupList.size();
+
+		Helper.line(60, "=");
+		System.out.println(String.format("%-20s %-20s %-20s", "GROUP ID", "GROUP NAME", "DESCRIPTION"));
+		Helper.line(60, "=");
+
+		for (Group group : groupList) {
+			System.out.println(String.format("%-20s %-20s %-20s", group.getId(), group.getGroupName(),
+					group.getGroupDescription()));
 		}
 
-		String title = Helper.readString("Enter event title > ");
+		Helper.line(60, "-");
+		System.out.println("Group count:" + totalGroups);
+		Helper.line(60, "=");
+	}
+
+	/*
+	 * public static void searchGroup(ArrayList<Group> groupList) { boolean
+	 * foundGroup = false; String keywordGroup =
+	 * Helper.readString("Enter a keyword to search for Group by its name or ID > "
+	 * ); String output = String.format("%-20s %-27s %-50s %-10s\n", "GROUP ID",
+	 * "GROUP NAME", "DESCRIPTION");
+	 * 
+	 * for (Group group : groupList) { if
+	 * (group.getId().equalsIgnoreCase(keywordGroup) ||
+	 * group.getGroupName().toLowerCase().contains(keywordGroup.toLowerCase())) {
+	 * 
+	 * output += String.format("%-20s %-27s %-50s %-10d\n", group.getId(),
+	 * group.getGroupName(), group.getGroupDescription()); foundGroup = true; } }
+	 * 
+	 * System.out.println(output);
+	 * 
+	 * if (!foundGroup) { System.out.
+	 * println("There is no group with the keyword of group name or group ID"); } }
+	 */
+
+	public static void deleteGroup(ArrayList<Group> groupList) {
+		String groupNameToDelete = Helper.readString("Enter the ID of the group to delete > ");
+		boolean groupFound = false;
+
+		for (Group group : groupList) {
+			if (group.getId().equalsIgnoreCase(groupNameToDelete)) {
+				groupFound = true;
+				groupList.remove(group);
+				System.out.println("Group has been deleted successfully.");
+				break;
+			}
+		}
+
+		if (!groupFound) {
+			System.out.println("Group with the specified name is not found.");
+		}
+	}
+
+	// Add event
+	public static boolean addEvent(ArrayList<Event> eventList) {
+		String eventID = "";
+
+		// Check for null
+		while (eventID.isEmpty() || eventExists(eventList, eventID)) {
+			eventID = Helper.readString("Enter event ID > ");
+			if (eventID.isEmpty()) {
+				System.out.println("Event ID cannot be empty.");
+			} else if (eventExists(eventList, eventID)) {
+				System.out.println("Event with the same ID already exists. Please enter a unique event ID.");
+			}
+		}
+
+		String title = "";
+		while (title.isEmpty()) {
+			title = Helper.readString("Enter event title > ");
+			if (title.isEmpty()) {
+				System.out.println("Title cannot be empty.");
+			}
+		}
 
 		String date = "";
 		while (true) {
 			date = Helper.readString("Enter event date (dd/mm/yyyy) > ");
-			if (isValidDate(date)) {
+			if (date.isEmpty()) {
+				System.out.println("Date cannot be empty.");
+			} else if (isValidDate(date)) {
 				break;
 			} else {
 				System.out.println("Invalid date format. Please enter a valid date in dd/mm/yyyy format.");
 			}
 		}
 
-		String location = Helper.readString("Enter event location > ");
-		String description = Helper.readString("Enter event description > ");
+		String location = "";
+		while (location.isEmpty()) {
+			location = Helper.readString("Enter event location > ");
+			if (location.isEmpty()) {
+				System.out.println("Location cannot be empty.");
+			}
+		}
+
+		String description = "";
+		while (description.isEmpty()) {
+			description = Helper.readString("Enter event description > ");
+			if (description.isEmpty()) {
+				System.out.println("Description cannot be empty.");
+			}
+		}
 
 		eventList.add(new Event(eventID, title, date, location, description));
 		System.out.println("Event added successfully.");
 		return true;
 	}
 
-	// Helper method to check if an event with the given ID already exists
+	// Check if an event with the given ID already exists
 	public static boolean eventExists(ArrayList<Event> eventList, String eventID) {
 		for (Event event : eventList) {
 			if (event.getEventID().equalsIgnoreCase(eventID)) {
@@ -316,6 +442,7 @@ public class C206_CaseStudy {
 		}
 	}
 
+	// View event
 	public static void viewEvents(ArrayList<Event> eventList) {
 		System.out.println();
 		Helper.line(100, "-");
@@ -337,7 +464,7 @@ public class C206_CaseStudy {
 		Helper.line(100, "-");
 	}
 
-//Delete Event
+	// Delete Event
 	public static boolean deleteEvent(ArrayList<Event> eventList) {
 		String eventID = Helper.readString("Enter the event ID to delete > ");
 
@@ -367,5 +494,199 @@ public class C206_CaseStudy {
 
 		System.out.println("Event with the specified ID not found.");
 		return false; // Event was not found
+	}
+
+	// Add Discussion
+	public static boolean addDiscussion(ArrayList<Discussion> discList) {
+		String discID = Helper.readString("Enter Discussion ID > ");
+
+		if (discExists(discList, discID)) {
+			System.out.println("Discussion with the same ID already exists. Please enter a unique event ID.");
+			return false;
+		}
+
+		String discTitle = Helper.readString("Enter Discussion title > ");
+
+		String discDescription = Helper.readString("Enter event description > ");
+
+		discList.add(new Discussion(discID, discTitle, discDescription));
+		System.out.println("Discussion added successfully.");
+		return true;
+	}
+
+	// Helper method to check if an event with the given ID already exists
+	public static boolean discExists(ArrayList<Discussion> discList, String discID) {
+		for (Discussion disc : discList) {
+			if (disc.getDiscID().equalsIgnoreCase(discID)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// View all Discussion
+	public static void viewDiscussion(ArrayList<Discussion> discList) {
+		System.out.println();
+		Helper.line(100, "-");
+		System.out.printf("%-10s %-25s %-12s\n", "DISCUSSION ID", "TITLE", "DESCRIPTION");
+		Helper.line(100, "-");
+
+		for (Discussion disc : discList) {
+			String discID = disc.getDiscID();
+			String title = disc.getTitle();
+			String description = disc.getDescription();
+
+			int maxLength = 10;
+			String wrappedMessage = wrapMessage(description, maxLength);
+
+			String formattedEntry = String.format("%-10s %-25s %-12s", discID, title, wrappedMessage);
+			System.out.println(formattedEntry);
+		}
+
+		Helper.line(100, "-");
+	}
+
+	// Delete Discussion
+	public static boolean deleteDiscussion(ArrayList<Discussion> discList) {
+		String delDiscID = Helper.readString("Enter the Discussion ID to delete > ");
+
+		for (int i = 0; i < discList.size(); i++) {
+			if (discList.get(i).getDiscID().equalsIgnoreCase(delDiscID)) {
+				Discussion discToDelete = discList.get(i);
+
+				System.out.println("Discussion found:");
+				Helper.line(100, "-");
+				System.out.println("Discussion ID: " + discToDelete.getDiscID());
+				System.out.println("Title: " + discToDelete.getTitle());
+				System.out.println("Description: " + discToDelete.getDescription());
+				Helper.line(100, "-");
+				String confirmDeleteInput = Helper
+						.readString("Are you sure you want to delete this discussion? (yes/no) > ");
+				if (confirmDeleteInput.equalsIgnoreCase("yes")) {
+					discList.remove(i);
+					System.out.println("Discussion deleted successfully.");
+					return true; // Discussion was successfully deleted
+				} else {
+					System.out.println("Discussion deletion cancelled.");
+					return false; // Deletion was cancelled
+				}
+			}
+		}
+
+		System.out.println("Discussion with the specified ID not found.");
+		return false; // Discussion was not found
+	}
+
+	// Wrap Messages
+	public static String wrapMessage(String message, int maxLength) {
+		StringBuilder wrappedMessage = new StringBuilder();
+		StringBuilder currentLine = new StringBuilder();
+
+		String[] words = message.split(" ");
+		for (String word : words) {
+			if (currentLine.length() + word.length() + 1 <= maxLength) {
+				currentLine.append(word).append(" ");
+			} else {
+				wrappedMessage.append(currentLine.toString().trim()).append("\n");
+				currentLine = new StringBuilder(word).append(" ");
+			}
+		}
+
+		wrappedMessage.append(currentLine.toString().trim());
+		return wrappedMessage.toString();
+	}
+
+	// AddBike
+
+	public static void addBike(ArrayList<Bike> bikeList) {
+
+		Helper.line(30, "=");
+		System.out.println("**** ADD NEW BIKE ****");
+		Helper.line(30, "=");
+
+		String bikeBrand = Helper.readString("Enter bike brand > ");
+		String bikeModel = Helper.readString("Enter bike Model > ");
+		String bikeDescription = Helper.readString("Enter bike description > ");
+		bikeList.add(new Bike(bikeBrand, bikeModel, bikeDescription));
+		System.out.println("Bike added successfully.");
+	}
+
+	// ViewBike
+	public static void viewBikes(ArrayList<Bike> bikeList) {
+
+		Helper.line(30, "=");
+		System.out.println("**** DISPLAY BIKE LIST ****");
+		Helper.line(30, "=");
+
+		if (!bikeList.isEmpty()) {
+			String output = "";
+			String table = "_________________________________________________________________";
+
+			output += String.format("| %-15s | %-25s | %-10s \n", "BRAND", "MODEL", "DESCRIPTION");
+			output += table + "\n";
+			for (int i = 0; i < bikeList.size(); i++) {
+				output += String.format("| %-15s | %-25s | %-10s \n", bikeList.get(i).getBikeBrand(),
+						bikeList.get(i).getBikeModel(), bikeList.get(i).getBikeDescription());
+				output += table + "\n";
+			}
+
+			System.out.println(table);
+			System.out.println(output);
+		} else {
+			System.out.println("There is no bike list.");
+		}
+	}
+
+	// deletebike
+	public static boolean deleteBike(ArrayList<Bike> bikeList) {
+		Helper.line(30, "=");
+		System.out.println("**** DELETE A BIKE ****");
+		Helper.line(30, "=");
+
+		String brand = Helper.readString("Enter bike brand > ");
+		String model = Helper.readString("Enter bike model > ");
+		System.out.println();
+		boolean bikeFound = false;
+
+		for (int i = 0; i < bikeList.size(); i++) {
+			if (bikeList.get(i).getBikeBrand().equalsIgnoreCase(brand)
+					&& bikeList.get(i).getBikeModel().equalsIgnoreCase(model)) {
+
+				bikeList.get(i).display();
+				bikeFound = true;
+
+				char confirmDeletion = Helper.readChar("Confirm deletion? (y/n) > ");
+
+				if (confirmDeletion == 'y') {
+					bikeList.remove(i);
+					System.out.println("*** Bike has been successfully deleted from your profile***");
+					break;
+				} else if (confirmDeletion == 'n') {
+					System.out.println("*** Bike is not deleted ***");
+					break;
+				} else {
+					System.out.println("Invalid input");
+				}
+			}
+		}
+		return bikeFound;
+	}
+
+	/* @param eventList*@param event_missing */
+
+	public static void addNewEvent(ArrayList<Event> eventList, Event event_missing) {
+		// TODO Auto-generated method stub
+		return;
+	}
+
+	/*
+	 * 
+	 * @param eventList
+	 * 
+	 * @return
+	 */
+	public static String viewEvent(ArrayList<Event> eventList) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
