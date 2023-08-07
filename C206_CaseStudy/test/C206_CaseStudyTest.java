@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class C206_CaseStudyTest {
+	
 	private User user1;
 	private User user2;
 	private User user3;

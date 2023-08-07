@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ public class C206_CaseStudy {
 	public static boolean loggedIn = false;
 	public static User currentUser;
 
+	
 	public static void main(String[] args) {
 		ArrayList<User> userList = new ArrayList<>();
 		ArrayList<Event> eventList = new ArrayList<>();
@@ -22,10 +24,11 @@ public class C206_CaseStudy {
 
 		discList.add(new Discussion("1", "Engine Overhaul",
 				"Here in this discussion we will talk about how to do an engine overhaul"));
-
+//   bikelist
 		bikeList.add(new Bike("Trek", "FX 2", "Hybrid bike "));
 		bikeList.add(new Bike("Giant", "Advanced Pro 1", "Road bike"));
 		bikeList.add(new Bike("Specialized", "Rockhopper", "Mountain bike"));
+		bikeList.add(new Bike("Honda", "CBR50P", "Sport bike"));
 
 		int option = 0;
 		while (option != 3) {
@@ -634,7 +637,9 @@ public class C206_CaseStudy {
 			System.out.println(output);
 		} else {
 			System.out.println("There is no bike list.");
+		
 		}
+	
 	}
 
 	// deletebike
