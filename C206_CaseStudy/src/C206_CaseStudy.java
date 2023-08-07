@@ -693,5 +693,6 @@ public class C206_CaseStudy {
 	public static String viewEvent(ArrayList<Event> eventList) {
 		// TODO Auto-generated method stub
 		return null;
+		
 	}
 }
