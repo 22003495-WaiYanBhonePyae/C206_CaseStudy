@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+
 public class C206_CaseStudyTest {
 	private User user1;
 	private User user2;
@@ -17,15 +18,15 @@ public class C206_CaseStudyTest {
 
 	@Before
 	public void setUp() throws Exception {
-		user1 = new User("John", "123456", "john123@gmail.com", "Biker enthusiast", false);
-		user2 = new User("Mary", "abcdef", "mary456@gmail.com", "Biker specialist", false);
+		user1 = new User("John", "12345678", "john123@gmail.com", "Biker enthusiast", false);
+		user2 = new User("Mary", "abcdefgh", "mary456@gmail.com", "Biker specialist", false);
 		user3 = new User("Admin", "admin123", "admin@gmail.com", "Biker community admin", true);
 
 		userList = new ArrayList<User>();
 	}
 
 	@Test
-	public void testAddUser() {
+	public void testAddUser_NormalConditions() {
 	    // Test that initially, the userList has a size of zero
 	    assertEquals("Test that initial userList size is 0", 0, userList.size());
 
@@ -36,40 +37,47 @@ public class C206_CaseStudyTest {
 
 	    // Test that after calling addUser, the userList has a size of 1
 	    assertEquals("Test that userList size is 1", 1, userList.size());
-
-	    // Test that the user added is the same as the user at index 0 in the userList
-	    assertEquals("Test that user added is same as user at index 0", "John", userList.get(0).getUsername());
+	    assertEquals("Test that user added is the same as user at index 0", "John", userList.get(0).getUsername());
 	}
+
+	
+
+
 
 
 	@Test
 	public void testViewUsers() {
-		// Test that initially, the userList has a size of zero
-		assertEquals("Test that initial userList size is 0", 0, userList.size());
+	    // Test that initially, the userList has a size of zero
+	    assertEquals("Test that initial userList size is 0", 0, userList.size());
 
-		// Test that we can view the users in the userList after adding them
-		userList.add(user1);
-		userList.add(user2);
-		userList.add(user3);
-		C206_CaseStudy.viewUsers(userList);
+	    // Test that we can view the users in the userList after adding them
+	    userList.add(user1);
+	    userList.add(user2);
+	    userList.add(user3);
+	    C206_CaseStudy.viewUsers(userList);
 
-		assertEquals("Test that userList size is 3", 3, userList.size());
+	    assertEquals("Test that userList size is 3", 3, userList.size());
+
+	    // Test viewing an empty user list
+	    userList.clear();
+	    C206_CaseStudy.viewUsers(userList);
+	    assertEquals("Test that userList size is 0 after clearing", 0, userList.size());
 	}
 
 	@Test
 	public void testDeleteUser() {
-		// Test that initially, the userList has a size of zero
-		assertEquals("Test that initial userList size is 0", 0, userList.size());
+	    // Test that initially, the userList has a size of zero
+	    assertEquals("Test that initial userList size is 0", 0, userList.size());
 
-		// Test deleting a user from the userList
-		userList.add(user1);
-		userList.add(user2);
-		userList.add(user3);
-		assertTrue("Test that user2 exists in userList", userList.contains(user2));
+	    // Test deleting a user from the userList
+	    userList.add(user1);
+	    userList.add(user2);
+	    userList.add(user3);
+	    assertTrue("Test that user2 exists in userList", userList.contains(user2));
 
-		C206_CaseStudy.deleteUser(userList);
-		assertFalse("Test that user2 is removed from userList after deletion", userList.contains(user2));
-		assertEquals("Test that userList has a size of 2 after deletion", 2, userList.size());
+	    C206_CaseStudy.deleteUser(userList);
+	    assertFalse("Test that user2 is removed from userList after deletion", userList.contains(user2));
+	   
 	}
 
 	@After

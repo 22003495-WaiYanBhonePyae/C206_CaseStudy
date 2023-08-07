@@ -131,24 +131,36 @@ public class C206_CaseStudy {
 	}
 
 	public static boolean login(ArrayList<User> userList) {
-		while (true) {
-			String email = Helper.readString("Enter Email address > ");
-			if (!validEmail(email)) {
-				System.out.println("Invalid email address! Please enter a valid email.");
-			} else {
-				String pass = Helper.readString("Enter password > ");
-				for (User user : userList) {
-					if (user.getEmail().equalsIgnoreCase(email) && user.getPassword().equals(pass)) {
-						loggedIn = true;
-						currentUser = user;
-						return true;
-					}
-				}
-				System.out.println("Please check your email and password.");
-				return false;
-			}
-		}
+	    while (true) {
+	        String email = Helper.readString("Enter Email address > ");
+	        boolean emailExists = false;
+	        
+	        for (User user : userList) {
+	            if (user.getEmail().equalsIgnoreCase(email)) {
+	                emailExists = true;
+	                break;
+	            }
+	        }
+	        
+	        if (!emailExists) {
+	            System.out.println("Email does not exist. Please check your email.");
+	            return false;
+	        }
+	        
+	        String pass = Helper.readString("Enter password > ");
+	        for (User user : userList) {
+	            if (user.getEmail().equalsIgnoreCase(email) && user.getPassword().equals(pass)) {
+	                loggedIn = true;
+	                currentUser = user;
+	                return true;
+	            }
+	        }
+	        
+	        System.out.println("Please check your password.");
+	        return false;
+	    }
 	}
+
 
 	public static void displayMenu() {
 		LocalDate cur = LocalDate.now();
@@ -164,53 +176,47 @@ public class C206_CaseStudy {
 	}
 
 	public static void addUser(ArrayList<User> userList) {
-		String uName = Helper.readString("Enter username > ");
-		String email;
-		String password;
-		String description;
+	    String uName = Helper.readString("Enter username > ");
+	    String email;
+	    String password;
+	    String description;
 
-		while (true) {
-			email = Helper.readString("Enter email address > ");
-			if (!validEmail(email)) {
-				System.out.println("Invalid email address! Please enter a valid email.");
-			} else if (emailExists(userList, email)) {
-				System.out.println("Email already exists. Please enter a different email.");
-			} else {
-				break;
-			}
-		}
+	    while (true) {
+	        email = Helper.readString("Enter email address > ");
+	        if (!email.contains("@") || !email.contains(".")) {
+	            System.out.println("Invalid email address! Please enter a valid email.");
+	        } else {
+	            boolean emailExists = false;
+	            for (User user : userList) {
+	                if (user.getEmail().equalsIgnoreCase(email)) {
+	                    emailExists = true;
+	                    break;
+	                }
+	            }
+	            if (emailExists) {
+	                System.out.println("Email already exists. Please enter a different email.");
+	            } else {
+	                break;
+	            }
+	        }
+	    }
 
-		while (true) {
-			password = Helper.readString("Enter strong password > ");
-			if (!validPassword(password)) {
-				System.out.println("Invalid password! Password must have at least 8 characters.");
-			} else {
-				break;
-			}
-		}
+	    while (true) {
+	        password = Helper.readString("Enter strong password > ");
+	        if (password.length() < 8) {
+	            System.out.println("Invalid password! Password must have at least 8 characters.");
+	        } else {
+	            break;
+	        }
+	    }
 
-		description = Helper.readString("Enter your biography > ");
-		userList.add(new User(uName, password, email, description, false)); // Set isAdmin to false by default
-		loggedIn = true;
-		System.out.println("Account created successfully.");
+	    description = Helper.readString("Enter your biography > ");
+	    userList.add(new User(uName, password, email, description, false)); // Set isAdmin to false by default
+	    loggedIn = true;
+	    System.out.println("Account created successfully.");
 	}
 
-	public static boolean validEmail(String email) {
-		return email.contains("@") && email.contains(".");
-	}
 
-	public static boolean emailExists(ArrayList<User> userList, String email) {
-		for (User user : userList) {
-			if (user.getEmail().equalsIgnoreCase(email)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public static boolean validPassword(String password) {
-		return password.length() >= 8;
-	}
 
 	public static void viewUsers(ArrayList<User> userList) {
 		System.out.println();

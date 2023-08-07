@@ -32,5 +32,6 @@ public class Event {
     public String getDescription() {
         return description;
     }
+    
 }
 

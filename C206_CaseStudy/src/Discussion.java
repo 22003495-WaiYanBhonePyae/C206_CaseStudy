@@ -32,5 +32,6 @@ public class Discussion{
         System.out.println("Title: " + title);
         System.out.println("Description: " + description);
     }
+    
 }
 
