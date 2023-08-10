@@ -12,6 +12,12 @@ import org.junit.Test;
 
 public class C206_CaseStudyTest {
 
+	
+	private User user1;
+	private User user2;
+	private User user3;
+
+
 	private ArrayList<User> userList;
 	private User us1;
 	private User us2;

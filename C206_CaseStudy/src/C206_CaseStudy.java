@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -22,10 +23,11 @@ public class C206_CaseStudy {
 
 		discList.add(new Discussion("1", "Engine Overhaul",
 				"Here in this discussion we will talk about how to do an engine overhaul"));
-
+//   bikelist
 		bikeList.add(new Bike("Trek", "FX 2", "Hybrid bike "));
 		bikeList.add(new Bike("Giant", "Advanced Pro 1", "Road bike"));
 		bikeList.add(new Bike("Specialized", "Rockhopper", "Mountain bike"));
+		
 
 		int option = 0;
 		while (option != 3) {
@@ -154,7 +156,7 @@ public class C206_CaseStudy {
 			} else if (choose == 3) {
 				addBike(bikeList);
 			} else if (choose == 4) {
-				viewBike(bikeList);
+				viewBikes(bikeList);
 			} else if (choose == 5) {
 				addGroup(groupList);
 			} else if (choose == 6) {
@@ -177,7 +179,7 @@ public class C206_CaseStudy {
 
 			}
 		}
-		
+
 	}
 
 	public static boolean login(ArrayList<User> userList) {
@@ -639,24 +641,23 @@ public class C206_CaseStudy {
 
 	// AddBike
 
-	public static void addBike(ArrayList<Bike> bikeList) {
+	  public static void addBike(ArrayList<Bike> bikeList) {
 
-		Helper.line(30, "=");
-		System.out.println("**** ADD NEW BIKE ****");
-		Helper.line(30, "=");
+	    Helper.line(30, "=");
+	    System.out.println("**** ADD NEW BIKE ****");
+	    Helper.line(30, "=");
 
-		String bikeBrand = Helper.readString("Enter bike brand > ");
-		String bikeModel = Helper.readString("Enter bike Model > ");
-		String bikeDescription = Helper.readString("Enter bike description > ");
-		bikeList.add(new Bike(bikeBrand, bikeModel, bikeDescription));
-		System.out.println("Bike added successfully.");
-	}
-
-	public static void addBike(ArrayList<Bike> bikeList, Bike bike_missing) {
-		// TODO Auto-generated method stub
-
-	}
-
+	    String bikeBrand = Helper.readString("Enter bike brand > ");
+	    String bikeModel = Helper.readString("Enter bike Model > ");
+	    String bikeDescription = Helper.readString("Enter bike description > ");
+	    bikeList.add(new Bike(bikeBrand, bikeModel, bikeDescription));
+	    System.out.println("Bike added successfully.");
+	  }
+	  
+	  public static void addBike(ArrayList<Bike> bikeList, Bike bike_missing) {
+	    // TODO Auto-generated method stub
+	    
+	  }
 	// ViewBike
 	public static void viewBikes(ArrayList<Bike> bikeList) {
 
@@ -681,13 +682,16 @@ public class C206_CaseStudy {
 		} else {
 			System.out.println("There is no bike list.");
 
+
 		}
+
 
 	}
 
 	public static String viewBike(ArrayList<Bike> bikeList) {
 		// TODO Auto-generated method stub
 		return null;
+
 	}
 
 	// deletebike
@@ -754,7 +758,6 @@ public class C206_CaseStudy {
 		if ((newEvent.getEventID().isEmpty()) || (newEvent.getDescription().isEmpty())) {
 			return;
 		}
-
 		eventList.add(newEvent);
 	}
 
