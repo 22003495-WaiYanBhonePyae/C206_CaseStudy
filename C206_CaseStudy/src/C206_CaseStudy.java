@@ -780,7 +780,7 @@ public class C206_CaseStudy {
 			eventList.remove(eventDelete);
 			return true; // Event successfully deleted
 		} else {
-			return false; // Event not found in the list
+			return false; // Event is not found in the list
 		}
 	}
 
