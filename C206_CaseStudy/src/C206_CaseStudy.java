@@ -7,6 +7,9 @@ import java.util.ArrayList;
 public class C206_CaseStudy {
 	public static boolean loggedIn = false;
 	public static User currentUser;
+	public static final int ADD_GROUP = 1;
+	public static final int VIEW_GROUPS = 2;
+	public static final int DELETE_GROUP = 3;
 
 	public static void main(String[] args) {
 		ArrayList<User> userList = new ArrayList<>();
@@ -27,7 +30,6 @@ public class C206_CaseStudy {
 		bikeList.add(new Bike("Trek", "FX 2", "Hybrid bike "));
 		bikeList.add(new Bike("Giant", "Advanced Pro 1", "Road bike"));
 		bikeList.add(new Bike("Specialized", "Rockhopper", "Mountain bike"));
-		
 
 		int option = 0;
 		while (option != 3) {
@@ -66,16 +68,14 @@ public class C206_CaseStudy {
 			System.out.println("4. Add a new bike");
 			System.out.println("5. View all bikes");
 			System.out.println("6. Delete an existing bike");
-			System.out.println("7. Add a new group");
-			System.out.println("8. View all groups");
-			System.out.println("9. Delete an existing group");
-			System.out.println("10. Add a new discussion");
-			System.out.println("11. View all discussions");
-			System.out.println("12. Delete an existing discussion");
-			System.out.println("13. Add a new event");
-			System.out.println("14. View all events");
-			System.out.println("15. Delete an existing event");
-			System.out.println("16. Log out");
+			System.out.println("7. GroupMenu");
+			System.out.println("8. Add a new discussion");
+			System.out.println("9. View all discussions");
+			System.out.println("10. Delete an existing discussion");
+			System.out.println("11. Add a new event");
+			System.out.println("12. View all events");
+			System.out.println("13. Delete an existing event");
+			System.out.println("14. Log out");
 
 			int choose = Helper.readInt("Enter an option > ");
 			if (choose == 1) {
@@ -94,33 +94,27 @@ public class C206_CaseStudy {
 				// Implement method to delete an existing bike
 				deleteBike(bikeList);
 			} else if (choose == 7) {
-				addGroup(groupList);
-				// Implement method to add a new group
+				groupMenu(groupList);
+				// Implement method to add a groupMenu
 			} else if (choose == 8) {
-				viewGroups(groupList);
-				// Implement method to view all groups
-			} else if (choose == 9) {
-				deleteGroup(groupList);
-				// Implement method to delete an existing group
-			} else if (choose == 10) {
 				addDiscussion(discList);
 				// Implement method to add a new discussion
-			} else if (choose == 11) {
+			} else if (choose == 9) {
 				viewDiscussion(discList);
 				// Implement method to view all discussions
-			} else if (choose == 12) {
+			} else if (choose == 10) {
 				deleteDiscussion(discList);
 				// Implement method to delete an existing discussion
-			} else if (choose == 13) {
+			} else if (choose == 11) {
 				addEvent(eventList);
 				// Implement method to add a new event
-			} else if (choose == 14) {
+			} else if (choose == 12) {
 				viewEvents(eventList);
 				// Implement method to view all events
-			} else if (choose == 15) {
+			} else if (choose == 13) {
 				// Implement method to delete an existing event
 				deleteEvent(eventList);
-			} else if (choose == 16) {
+			} else if (choose == 14) {
 				System.out.println("Logged out successfully");
 				loggedIn = false;
 			} else {
@@ -158,7 +152,10 @@ public class C206_CaseStudy {
 			} else if (choose == 4) {
 				viewBikes(bikeList);
 			} else if (choose == 5) {
-				addGroup(groupList);
+				String groupID = Helper.readString("Enter the group ID >");
+				String groupName = Helper.readString("Enter the group name > ");
+				String groupDescription = Helper.readString("Enter the group description > ");
+				addGroup(groupList, groupID, groupName, groupDescription);
 			} else if (choose == 6) {
 				viewGroups(groupList);
 			} else if (choose == 7) {
@@ -361,39 +358,61 @@ public class C206_CaseStudy {
 		}
 	}
 
-	public static void addGroup(ArrayList<Group> groupList) {
+	public static void addGroup(ArrayList<Group> groupList, String groupID, String groupName, String groupDescription) {
 
-		String groupID = Helper.readString("Enter the group ID >");
-		String groupName = Helper.readString("Enter the group name > ");
-		String groupDescription = Helper.readString("Enter the group description > ");
+		if (groupalrExists(groupList, groupID)) {
+			System.out.println("A group with the same GROUP ID already exists. Please enter a different ID .");
+			return;
+		}
+
+		if (groupName.isEmpty()) {
+			System.out.println("Group name cannot be empty.");
+			return;
+		}
+
+		if (groupDescription.isEmpty()) {
+			System.out.println("Group description cannot be empty.");
+			return;
+		}
 
 		Group newGroup = new Group(groupID, groupName, groupDescription);
-
 		groupList.add(newGroup);
 
-		System.out.println("New group has successfully have been added in the Bikers Community Portal!");
-
+		System.out.println("New group has been successfully added in the Bikers Community Portal!");
 	}
 
-	public static void viewGroups(ArrayList<Group> groupList) {
-		int totalGroups = groupList.size();
+	// method to check if a group with the given ID or group name already
+	// exists
+	public static boolean groupalrExists(ArrayList<Group> groupList, String groupID) {
+		for (Group group : groupList) {
+			if (group.getId().equalsIgnoreCase(groupID)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
+	public static String viewGroups(ArrayList<Group> groupList) {
+		int totalGroups = groupList.size();
+		String output = "";
 		Helper.line(60, "=");
-		System.out.println(String.format("%-20s %-20s %-20s", "GROUP ID", "GROUP NAME", "DESCRIPTION"));
+		System.out.printf("%-20s %-20s %-20s", "GROUP ID", "GROUP NAME", "DESCRIPTION");
 		Helper.line(60, "=");
 
 		for (Group group : groupList) {
-			System.out.println(String.format("%-20s %-20s %-20s", group.getId(), group.getGroupName(),
-					group.getGroupDescription()));
+			output += String.format("%-20s %-20s %-20s\n", group.getId(), group.getGroupName(),
+					group.getGroupDescription());
 		}
 
-		Helper.line(60, "-");
+		Helper.line(60, "=");
+		System.out.println(output);
 		System.out.println("Group count:" + totalGroups);
 		Helper.line(60, "=");
+
+		return output;
 	}
 
-	public static void deleteGroup(ArrayList<Group> groupList) {
-		String groupNameToDelete = Helper.readString("Enter the ID of the group to delete > ");
+	public static boolean deleteGroup(ArrayList<Group> groupList, String groupNameToDelete) {
 		boolean groupFound = false;
 
 		for (Group group : groupList) {
@@ -407,6 +426,37 @@ public class C206_CaseStudy {
 
 		if (!groupFound) {
 			System.out.println("Group with the specified name is not found.");
+		}
+		return groupFound;
+	}
+
+	public static void groupMenu(ArrayList<Group> groupList) {
+		int option = 0;
+		while (option != 4) {
+			System.out.println("***** GROUP MENU *****");
+			System.out.println("1. Add a new group");
+			System.out.println("2. View all groups");
+			System.out.println("3. Delete an existing group");
+			System.out.println("4. Back to main menu");
+			option = Helper.readInt("Enter an option > ");
+
+			if (option == ADD_GROUP) {
+				String groupID = Helper.readString("Enter the group ID >");
+				String groupName = Helper.readString("Enter the group name > ");
+				String groupDescription = Helper.readString("Enter the group description > ");
+				addGroup(groupList, groupID, groupName, groupDescription);
+			} else if (option == VIEW_GROUPS) {
+				viewGroups(groupList);
+			} else if (option == DELETE_GROUP) {
+				String groupNameToDelete = Helper.readString("Enter the ID of the group to delete > ");
+				deleteGroup(groupList, groupNameToDelete);
+			} else if (option == 4) {
+				System.out.println("Exit main menu");
+				break;
+			} else {
+				System.out.println("Invalid option!");
+
+			}
 		}
 	}
 
@@ -641,23 +691,24 @@ public class C206_CaseStudy {
 
 	// AddBike
 
-	  public static void addBike(ArrayList<Bike> bikeList) {
+	public static void addBike(ArrayList<Bike> bikeList) {
 
-	    Helper.line(30, "=");
-	    System.out.println("**** ADD NEW BIKE ****");
-	    Helper.line(30, "=");
+		Helper.line(30, "=");
+		System.out.println("**** ADD NEW BIKE ****");
+		Helper.line(30, "=");
 
-	    String bikeBrand = Helper.readString("Enter bike brand > ");
-	    String bikeModel = Helper.readString("Enter bike Model > ");
-	    String bikeDescription = Helper.readString("Enter bike description > ");
-	    bikeList.add(new Bike(bikeBrand, bikeModel, bikeDescription));
-	    System.out.println("Bike added successfully.");
-	  }
-	  
-	  public static void addBike(ArrayList<Bike> bikeList, Bike bike_missing) {
-	    // TODO Auto-generated method stub
-	    
-	  }
+		String bikeBrand = Helper.readString("Enter bike brand > ");
+		String bikeModel = Helper.readString("Enter bike Model > ");
+		String bikeDescription = Helper.readString("Enter bike description > ");
+		bikeList.add(new Bike(bikeBrand, bikeModel, bikeDescription));
+		System.out.println("Bike added successfully.");
+	}
+
+	public static void addBike(ArrayList<Bike> bikeList, Bike bike_missing) {
+		// TODO Auto-generated method stub
+
+	}
+
 	// ViewBike
 	public static void viewBikes(ArrayList<Bike> bikeList) {
 
@@ -682,9 +733,7 @@ public class C206_CaseStudy {
 		} else {
 			System.out.println("There is no bike list.");
 
-
 		}
-
 
 	}
 

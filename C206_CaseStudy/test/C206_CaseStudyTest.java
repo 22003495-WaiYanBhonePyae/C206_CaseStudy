@@ -131,34 +131,77 @@ public class C206_CaseStudyTest {
 
 	@Test
 	public void testAddGroup() {
-		ArrayList<Group> groupList = new ArrayList<>();
-		C206_CaseStudy.addGroup(groupList);
+//AddGroup
+		assertEquals("Test that initial groupList size is 0", 0, groupList.size());
 
-		assertEquals(1, groupList.size());
-		// Add more assertions as needed based on the expected behavior of the method
+	String id = "2205";
+    String name = "Tiger Bikers";
+    String description = "Love Biking Adventures";
+    C206_CaseStudy.addGroup(groupList,id,name,description);
+ // Test that after adding a new group, the size of the groupList is 1
+    assertEquals("Test that the size of the groupList is 1", 1, groupList.size());
+    
+    Group groupexists = new Group("2202", "Tigers", "Biking nerds");
+    groupList.add(groupexists);
+
+    boolean groupAlrExists = C206_CaseStudy.groupalrExists(groupList, "2202");
+    assertTrue("Test that group with ID '2202' already exists", groupAlrExists);
+
+    boolean groupNotExist = C206_CaseStudy.groupalrExists(groupList, "2203");
+    assertFalse("Test that group with ID '2203' does not exist", groupNotExist);
 	}
-
 	@Test
 	public void testViewGroups() {
-		ArrayList<Group> groupList = new ArrayList<>();
-		Group newGroup = new Group("Group 1", "Description 1", "ID1");
-		groupList.add(newGroup);
-
-		C206_CaseStudy.viewGroups(groupList);
-
-		// Assert the output of the method based on the expected behavior
+		// Test that initially, the groupList has a size of 2
+		assertNotNull("Check that if there is any groups to add",groupList);
+		String id = "2202";
+		String name = "Tigers";
+		String description = "Biking nerds";
+		C206_CaseStudy.addGroup(groupList,id, name, description);
+		assertEquals("Test that group arrayList size is 1",1,groupList.size());
+		
+		
+		id = "2203";
+		name = "Lions";
+		description = "nerds";
+		C206_CaseStudy.addGroup(groupList,id, name, description);
+		assertEquals("Test that Group arrayList size is 2",2,groupList.size());
+		
+		String testOutput=String.format("%-20s %-20s %-20s\n", "2202", "Tigers","Biking nerds");
+		testOutput += String.format("%-20s %-20s %-20s\n", "2203", "Lions","nerds");    
+		
+		assertEquals("Test that testViewGroups list is the expected output", testOutput,C206_CaseStudy.viewGroups(groupList));
+    
 	}
-
+	
 	@Test
 	public void testDeleteGroup() {
-		ArrayList<Group> groupList = new ArrayList<>();
-		Group newGroup = new Group("GroupToDelete", "Description", "ID1");
-		groupList.add(newGroup);
+	    // Test that if the initial groupList size is 0
+	    assertNotNull("Check that if there are any groups to delete", groupList);
+	    assertEquals("Test that if the initial groupList size is 0", 0, groupList.size());
 
-		C206_CaseStudy.deleteGroup(groupList);
+	    String id = "2202";
+	    String name = "Tigers";
+	    String description = "Biking nerds";
+	    C206_CaseStudy.addGroup(groupList, id, name, description);
+	    assertEquals("Test that groupList size changes to 1 after adding a new group", 1, groupList.size());
+	    
+	    
+	    // Test after deleting a group from the groupList
+	    boolean isDeleted = C206_CaseStudy.deleteGroup(groupList, "2202");
+	    assertTrue("Test that group with ID '2202' is deleted", isDeleted);
+	    assertEquals("Test that groupList size is 0 after deleting a group", 0, groupList.size());
 
-		assertEquals(0, groupList.size());
-		// Add more assertions as needed based on the expected behavior of the method
+	     id = "2202";
+	     name = "Tigers";
+	     description = "Biking nerds";
+	    C206_CaseStudy.addGroup(groupList, id, name, description);
+	    assertEquals("Test that groupList size is 1 after adding a new group", 1, groupList.size());
+	    
+	    // Test deleting a group that does not exist
+	    boolean isNotDeleted = C206_CaseStudy.deleteGroup(groupList, "2204");
+	    assertFalse("Test that group with ID '2204' does not exist and cannot be deleted", isNotDeleted);
+	    assertEquals("Test that groupList size is still 1 after trying to delete a non-existing group", 1, groupList.size());
 	}
 
 	@Test
@@ -297,10 +340,11 @@ public class C206_CaseStudyTest {
 	public void tearDown() throws Exception {
 		userList.clear();
 		userList = null;
-
+		gp1=null;
+		gp2=null;
 		bikeList = null;
 		eventList.clear();
-
+		groupList=null;
 		event1 = null;
 		event2 = null;
 		eventA = null;
