@@ -5,6 +5,18 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class C206_CaseStudy {
+	
+	private static final int DELETE_BIKE = 6;
+	private static final int VIEW_BIKERS = 5;
+	private static final int ADD_BIKE = 4;
+	private static final int DELETE_EVENT = 13;
+	private static final int VIEW_EVENTS = 12;
+	private static final int ADD_EVENT = 11;
+	private static final int DELETE_USER = 3;
+	private static final int VIEW_USERS = 2;
+	private static final int LOGIN = 2;
+	private static final int ADD_USER = 1;
+	private static final int OPTION_QUIT = 3;
 	public static boolean loggedIn = false;
 	public static User currentUser;
 	public static final int ADD_GROUP = 1;
@@ -32,12 +44,12 @@ public class C206_CaseStudy {
 		bikeList.add(new Bike("Specialized", "Rockhopper", "Mountain bike"));
 
 		int option = 0;
-		while (option != 3) {
+		while (option != OPTION_QUIT) {
 			displayMenu();
 			option = Helper.readInt("Enter an option > ");
-			if (option == 1) {
+			if (option == ADD_USER) {
 				addUser(userList);
-			} else if (option == 2) {
+			} else if (option == LOGIN) {
 				if (login(userList)) {
 					System.out.println("**** Account login successful ****");
 					if (currentUser.isAdmin()) {
@@ -48,7 +60,7 @@ public class C206_CaseStudy {
 				} else {
 					System.out.println("Login unsuccessful.");
 				}
-			} else if (option == 3) {
+			} else if (option == OPTION_QUIT) {
 				System.out.println("Bye! Have a great day.");
 				break;
 			} else {
@@ -78,19 +90,19 @@ public class C206_CaseStudy {
 			System.out.println("14. Log out");
 
 			int choose = Helper.readInt("Enter an option > ");
-			if (choose == 1) {
+			if (choose == ADD_USER) {
 				addUser(userList);
-			} else if (choose == 2) {
+			} else if (choose == VIEW_USERS) {
 				viewUsers(userList);
-			} else if (choose == 3) {
+			} else if (choose == DELETE_USER) {
 				deleteUser(userList);
-			} else if (choose == 4) {
+			} else if (choose == ADD_BIKE) {
 				// Implement method to add a new bike
 				addBike(bikeList);
-			} else if (choose == 5) {
+			} else if (choose == VIEW_BIKERS) {
 				// Implement method to view all bikes
 				viewBikes(bikeList);
-			} else if (choose == 6) {
+			} else if (choose == DELETE_BIKE) {
 				// Implement method to delete an existing bike
 				deleteBike(bikeList);
 			} else if (choose == 7) {
@@ -105,13 +117,13 @@ public class C206_CaseStudy {
 			} else if (choose == 10) {
 				deleteDiscussion(discList);
 				// Implement method to delete an existing discussion
-			} else if (choose == 11) {
+			} else if (choose == ADD_EVENT) {
 				addEvent(eventList);
 				// Implement method to add a new event
-			} else if (choose == 12) {
+			} else if (choose == VIEW_EVENTS) {
 				viewEvents(eventList);
 				// Implement method to view all events
-			} else if (choose == 13) {
+			} else if (choose == DELETE_EVENT) {
 				// Implement method to delete an existing event
 				deleteEvent(eventList);
 			} else if (choose == 14) {
