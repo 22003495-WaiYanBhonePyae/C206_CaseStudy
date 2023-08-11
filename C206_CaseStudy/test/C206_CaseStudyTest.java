@@ -337,6 +337,60 @@ public class C206_CaseStudyTest {
 
 	  
 	}
+	  
+	  @Test
+      public void testAddDiscussion() {
+           ArrayList<Discussion> discList = new ArrayList<>();
+           Discussion discussion = new Discussion("2", "How to maintain your motorcycle chain", "Discuss tips and tricks for maintaining your motorcycle chain.");
+           discList.add(discussion);
+           assertEquals(1, discList.size());
+       }
+
+
+       //Test for viewDiscussion() to check correct discussion details are shown and in correct format
+	  @Test
+	  public void viewAllDiscussionsTest() {
+	      // Initialize the discList
+	      ArrayList<Discussion> discList = new ArrayList<>();
+
+	      // Add discussions in the list
+	      Discussion discussion1 = new Discussion("1", "Engine Overhaul", "Here in this discussion we will talk about how to do an engine overhaul");
+	      discList.add(discussion1);
+
+	      Discussion discussion2 = new Discussion("2", "Tires Replacement", "Here in this discussion we will talk about how to replace the tires");
+	      discList.add(discussion2);
+
+	      Discussion discussion3 = new Discussion("3", "Oil Change", "Here in this discussion we will talk about how to do an Oil change");
+	      discList.add(discussion3);
+
+	      // Act: Get list of all discussions
+	      String allDiscussions = "";
+	      for (Discussion discussion : discList) {
+	          allDiscussions += discussion.toString() + "\n";
+	      }
+
+
+           //Assert: Check that discussions are displayed with their relevant information and are sorted by most recent activity
+           assertEquals(
+                   "Discussion ID: 1\n" +
+                           "Title: Engine Overhaul\n" +
+                           "Description: Here in this discussion we will talk about how to do an engine overhaul\n" +
+                           "Date of Creation: null\n" +
+                           "Last Activity: 2023-08-07\n\n" +
+                           "Discussion ID: 3\n" +
+                           "Title: Oil Change\n" +
+                           "Description: Here in this discussion we will talk about how to do an Oil change\n" +
+                           "Date of Creation: null\n" +
+                           "Last Activity: 2023-08-05\n\n" +
+                           "Discussion ID: 2\n" +
+                           "Title: Tires Replacement\n" +
+                           "Description: Here in this discussion we will talk about how to replace the tires\n" +
+                           "Date of Creation: null\n" +
+                           "Last Activity: 2023-08-03\n\n", 
+                   allDiscussions
+           );
+       }
+       
 
 	@After
 	public void tearDown() throws Exception {
