@@ -141,14 +141,16 @@ public class C206_CaseStudyTest {
  // Test that after adding a new group, the size of the groupList is 1
     assertEquals("Test that the size of the groupList is 1", 1, groupList.size());
     
-    Group groupexists = new Group("2202", "Tigers", "Biking nerds");
-    groupList.add(groupexists);
 
-    boolean groupAlrExists = C206_CaseStudy.groupalrExists(groupList, "2202");
-    assertTrue("Test that group with ID '2202' already exists", groupAlrExists);
+    
+    
+    C206_CaseStudy.addGroup(groupList,id,name,description);
+
+    assertEquals("Test that the groupList size remains 1 after trying to add a group with duplicate ID", 1, groupList.size());
+
 
     boolean groupNotExist = C206_CaseStudy.groupalrExists(groupList, "2203");
-    assertFalse("Test that group with ID '2203' does not exist", groupNotExist);
+   assertFalse("Test that group with ID '2203' does not exist", groupNotExist);
 	}
 	@Test
 	public void testViewGroups() {
