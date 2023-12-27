@@ -14,6 +14,7 @@ public class Group {
 	    
 	}
 
+	
 	public void setId(String id) {
 		this.id = id;
 	}

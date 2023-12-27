@@ -4,6 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
+
 public class C206_CaseStudy {
 	
 	private static final int DELETE_BIKE = 6;

@@ -6,6 +6,7 @@ public class Discussion{
     private String description;
 //    private String membersEm;
 
+    
     public Discussion(String discID, String discTitle, String discDesc/*, String membersEm*/) {
 
     	this.discID = discID;
